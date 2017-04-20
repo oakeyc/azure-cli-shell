@@ -69,6 +69,7 @@ class CompletionTest(unittest.TestCase):
         )
 
     def test_something(self):
+        self.init1()
         self.shell_app.set_prompt('hello')
         self.assertEquals(self.shell_app.cli.current_buffer.text, u'hello')
 
