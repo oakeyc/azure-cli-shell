@@ -20,7 +20,6 @@ from azclishell.az_lexer import AzLexer
 from azclishell.util import default_style
 
 import azclishell.command_tree as tree
-from azclishell.az_completer import AzCompleter
 
 from prompt_toolkit.document import Document
 from prompt_toolkit.completion import Completion
@@ -68,6 +67,7 @@ class CompletionTest(unittest.TestCase):
         """ tests the prompt methods """
         self.init1()
         description, examples = self.shell_app.generate_help_text('no')
+        print('first no')
         self.assertEquals(description, '')
         self.assertEquals(examples, '')
 
