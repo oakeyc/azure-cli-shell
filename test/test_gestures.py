@@ -35,42 +35,43 @@ AZCOMPLETER = AzCompleter(GatherCommands())
 SHELL_CONFIGURATION = azclishell.configuration.CONFIGURATION
 
 
-def main(args):
-    os.environ[ENV_ADDITIONAL_USER_AGENT] = 'AZURECLISHELL/' + __version__
+class CompletionTest(unittest.TestCase):
+    """ tests the shell specific gestures """
+    def init1(self):
+        """ a variation of initializing """
 
-    parser = argparse.ArgumentParser(prog='az-shell')
-    parser.add_argument(
-        '--no-style', dest='style', action='store_true', help='the colors of the shell')
-    args = parser.parse_args(args)
+        os.environ[ENV_ADDITIONAL_USER_AGENT] = 'AZURECLISHELL/' + __version__
 
-    style = default_style()
-    if args.style:
-        style = None
+        style = default_style()
 
-    azure_folder = cli_config_dir()
-    if not os.path.exists(azure_folder):
-        os.makedirs(azure_folder)
+        azure_folder = cli_config_dir()
+        if not os.path.exists(azure_folder):
+            os.makedirs(azure_folder)
 
-    ACCOUNT.load(os.path.join(azure_folder, 'azureProfile.json'))
-    CONFIG.load(os.path.join(azure_folder, 'az.json'))
-    SESSION.load(os.path.join(azure_folder, 'az.sess'), max_age=3600)
+        ACCOUNT.load(os.path.join(azure_folder, 'azureProfile.json'))
+        CONFIG.load(os.path.join(azure_folder, 'az.json'))
+        SESSION.load(os.path.join(azure_folder, 'az.sess'), max_age=3600)
 
-    config = SHELL_CONFIGURATION
-    shell_config_dir = azclishell.configuration.get_config_dir
+        config = SHELL_CONFIGURATION
+        shell_config_dir = azclishell.configuration.get_config_dir
 
-    if config.BOOLEAN_STATES[config.config.get('DEFAULT', 'firsttime')]:
-        print("When in doubt, ask for 'help'")
-        config.firsttime()
+        if config.BOOLEAN_STATES[config.config.get('DEFAULT', 'firsttime')]:
+            print("When in doubt, ask for 'help'")
+            config.firsttime()
 
-    shell_app = Shell(
-        completer=AZCOMPLETER,
-        lexer=AzLexer,
-        history=FileHistory(
-            os.path.join(shell_config_dir(), config.get_history())),
-        app=APPLICATION,
-        styles=style
-    )
-    # shell_app.run()
+        shell_app = Shell(
+            completer=AZCOMPLETER,
+            lexer=AzLexer,
+            history=FileHistory(
+                os.path.join(shell_config_dir(), config.get_history())),
+            app=APPLICATION,
+            styles=style
+        )
+        # shell_app.run()
+
+    def test_something(self):
+        self.assertEquals(True, True)
+
 
 if __name__ == '__main__':
     unittest.main()
