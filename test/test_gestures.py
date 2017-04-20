@@ -59,7 +59,7 @@ class CompletionTest(unittest.TestCase):
             print("When in doubt, ask for 'help'")
             config.firsttime()
 
-        shell_app = Shell(
+        self.shell_app = Shell(
             completer=AZCOMPLETER,
             lexer=AzLexer,
             history=FileHistory(
@@ -67,10 +67,10 @@ class CompletionTest(unittest.TestCase):
             app=APPLICATION,
             styles=style
         )
-        # shell_app.run()
 
     def test_something(self):
-        self.assertEquals(True, True)
+        self.shell_app.set_prompt('hello')
+        self.assertEquals(self.shell_app.cli.current_buffer.text, u'hello')
 
 
 if __name__ == '__main__':
