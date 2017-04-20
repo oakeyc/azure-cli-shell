@@ -66,10 +66,9 @@ class CompletionTest(unittest.TestCase):
     def test_prompt(self):
         """ tests the prompt methods """
         self.init1()
-        description, examples = self.shell_app.generate_help_text('no')
-        print('first no')
-        self.assertEquals(description, '')
-        self.assertEquals(examples, '')
+        # description, examples = self.shell_app.generate_help_text('no')
+        self.assertEquals(self.shell_app.cli.current_buffer.text, u'')
+        # self.assertEquals(examples, '')
 
 
 if __name__ == '__main__':
